@@ -331,15 +331,7 @@ class MySQL
             return count($result);
         }
 
-        // Hard clone (cloning PDOStatements doesn't work)
-        $query = $result->queryString;
-        $cloned = $this->mysql_query($query);
-        if ($cloned) {
-            $data = $cloned->fetchAll();
-            return count($data);
-        } else {
-            return false;
-        }
+        return $result->rowCount();
     }
 
     /**
