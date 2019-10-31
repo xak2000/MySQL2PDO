@@ -105,9 +105,15 @@ class MySQL
      */
     public function mysql_connect($server, $username, $password, $newLink = false, $clientFlags = false, $usePosition = false)
     {
-        // If we don't have to create a new instance and we have an instance, return it
+        // If we aren't forcing a new link and connection exist, use it
         if ($newLink == false && count($this->_instances) > 1) {
-            return count($this->_instances);
+            foreach ($this->_params as $position => $params) {
+                if ($params['server'] == $server &&
+                    $params['username'] == $username &&
+                    $params['clientFlags'] == $clientFlags) {
+                    return $position;
+                }
+            }
         }
 
         $flags = $this->_translateFlags($clientFlags);
