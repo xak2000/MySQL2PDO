@@ -331,7 +331,11 @@ class MySQL
             return count($result);
         }
 
-        return $result->rowCount();
+        if ($result instanceof PDOStatement) {
+            return $result->rowCount();
+        }
+
+        return false;
     }
 
     /**
